@@ -22,16 +22,31 @@ const accounts = process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KE
 
 const config: HardhatUserConfig = {
   solidity: "0.8.18",
-  defaultNetwork: "goerli",
   networks: {
+    mumbai: {
+      chainId: 80001,
+      url: 'https://rpc-mumbai.maticvigil.com',
+      accounts,
+    },
     goerli: {
       chainId: 5,
       url: `https://goerli.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts,
     },
-    mumbai: {
-      chainId: 80001,
-      url: 'https://rpc-mumbai.maticvigil.com',
+    'bsc-testnet': {
+      chainId: 97,
+      url: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+      accounts,
+    },
+    'gnosis-chiado': {
+      chainId: 10200,
+      url: 'https://rpc.chiadochain.net',
+      gasPrice: 1000000000,
+      accounts,
+    },
+    'linea-testnet': {
+      chainId: 59140,
+      url: 'https://rpc.goerli.linea.build',
       accounts,
     },
   },
@@ -41,10 +56,21 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
+      mumbai: process.env.POLYGONSCAN_API_KEY || '',
       goerli: process.env.ETHERSCAN_API_KEY || '',
-      mumbai: process.env.POLYGONSCAN_API_KEY || ''
+      "bsc-testnet": process.env.BSCTESTNETSCAN_API_KEY || '',
+      "gnosis-chiado": process.env.GNOSISCHIADOSCAN_API_KEY || '',
+      "linea-testnet": process.env.LINEATESTNETSCAN_API_KEY || '',
     },
     customChains: [
+      {
+        network: "mumbai",
+        chainId: 80001,
+        urls: {
+          apiURL: "https://api-testnet.polygonscan.com/api",
+          browserURL: "https://mumbai.polygonscan.com"
+        }
+      },
       {
         network: "goerli",
         chainId: 5,
@@ -54,11 +80,27 @@ const config: HardhatUserConfig = {
         }
       },
       {
-        network: "mumbai",
-        chainId: 80001,
+        network: "bsc-testnet",
+        chainId: 97,
         urls: {
-          apiURL: "https://api-testnet.polygonscan.com/api",
-          browserURL: "https://mumbai.polygonscan.com"
+          apiURL: "https://api-testnet.bscscan.com/api",
+          browserURL: "https://testnet.bscscan.com"
+        }
+      },
+      {
+        network: "gnosis-chiado",
+        chainId: 10200,
+        urls: {
+          apiURL: "https://blockscout.com/gnosis/chiado/api",
+          browserURL: "https://blockscout.com/gnosis/chiado"
+        }
+      },
+      {
+        network: "linea-testnet",
+        chainId: 59140,
+        urls: {
+          apiURL: "https://explorer.goerli.linea.build/api",
+          browserURL: "https://explorer.goerli.linea.build"
         }
       },
     ]

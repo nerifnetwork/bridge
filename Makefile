@@ -20,18 +20,28 @@ init:
 	cp .env.example .env
 	cp contracts-<chain-id>.json contracts-5.json
 	touch contracts-<chain-id>.json contracts-80001.json
+	touch contracts-<chain-id>.json contracts-97.json
+	touch contracts-<chain-id>.json contracts-10200.json
+	touch contracts-<chain-id>.json contracts-59140.json
 
 .PHONY: deploy
 deploy: deploy-bridge deploy-receiver
 
 .PHONY: deploy-bridge
 deploy-bridge:
-	npx hardhat --network mumbai run scripts/deploy-bridge.ts
-	npx hardhat --network goerli run scripts/deploy-bridge.ts
+	VERIFY=true npx hardhat --network mumbai run scripts/deploy-bridge.ts
+	VERIFY=true npx hardhat --network goerli run scripts/deploy-bridge.ts
+	VERIFY=true npx hardhat --network bsc-testnet run scripts/deploy-bridge.ts
+	VERIFY=true npx hardhat --network gnosis-chiado run scripts/deploy-bridge.ts
+	VERIFY=true npx hardhat --network linea-testnet run scripts/deploy-bridge.ts
 
 .PHONY: deploy-receiver
 deploy-receiver:
-	npx hardhat --network mumbai run scripts/deploy-test-receiver.ts
+	VERIFY=true npx hardhat --network mumbai run scripts/deploy-test-receiver.ts
+	VERIFY=true npx hardhat --network goerli run scripts/deploy-test-receiver.ts
+	VERIFY=true npx hardhat --network bsc-testnet run scripts/deploy-test-receiver.ts
+	VERIFY=true npx hardhat --network gnosis-chiado run scripts/deploy-test-receiver.ts
+	VERIFY=true npx hardhat --network linea-testnet run scripts/deploy-test-receiver.ts
 
 .PHONY: send-message
 send-message:
