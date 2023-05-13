@@ -39,8 +39,10 @@ var (
 	emailClient *ses.SES
 
 	chainToName = map[string]string{
-		"5":     "Ethereum Goerli",
 		"80001": "Polygon Mumbai",
+		"5":     "Ethereum Goerli",
+		"97":    "BSC Testnet",
+		"10200": "Gnosis Chiado",
 	}
 )
 
