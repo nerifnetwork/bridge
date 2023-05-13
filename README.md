@@ -12,7 +12,7 @@ The current state of Nerif Bridge shows high level overview of the bridging arch
 
 Bootstrapping the Nerif Bridge requires deploying several smart contracts and creating a special workflow within Nerif Network in order to power the bridge.
 
-Bridge contracts deployment requires having [Gateway](https://github.com/nerifnetwork/contracts/blob/main/contracts/operational/Gateway.sol) contract already deployed and registered per [Registry](https://github.com/nerifnetwork/contracts/blob/main/contracts/operational/Registry.sol#L244) on both Goerli and Mumbai.
+Bridge contracts deployment requires having [Gateway](https://github.com/nerifnetwork/contracts/blob/main/contracts/operational/Gateway.sol) contract already deployed and registered per [Registry](https://github.com/nerifnetwork/contracts/blob/main/contracts/operational/Registry.sol#L244) on all chains.
 
 ### Initialize environment
 
@@ -22,7 +22,7 @@ First aff all, run the following command in order to create all required environ
 $ make init
 ```
 
-As a results, the following files will be created: .env, contracts-5.json, contracts-80001.json.
+As a results, the following files will be created: .env, contracts-5.json, contracts-80001.json, contracts-97.json, contracts-10200.json.
 Replace gateway address for the real one in those .json files. Specify real values in .env file.
 
 Now the bridge contracts can be deployed:
@@ -31,7 +31,7 @@ Now the bridge contracts can be deployed:
 $ VERIFY=true make deploy-bridge
 ```
 
-As a result, [the bridge contract](./contracts/bridge/NerifBridge.sol) will be deployed on Goerli (5) and Mumbai (80001) chains.
+As a result, [the bridge contract](./contracts/bridge/NerifBridge.sol) will be deployed on Goerli (5), Mumbai (80001), BSC Testnet (97), and Gnosis Chiado (10200) chains.
 Addresses are stored in those .json filed in the root of the repo.
 
 ### Create Nerif Network workflow

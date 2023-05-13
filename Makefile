@@ -45,4 +45,8 @@ deploy-receiver:
 
 .PHONY: send-message
 send-message:
+	npx hardhat --network mumbai run scripts/send-message.ts
 	npx hardhat --network goerli run scripts/send-message.ts
+	npx hardhat --network bsc-testnet run scripts/send-message.ts
+	npx hardhat --network gnosis-chiado run scripts/send-message.ts
+	npx hardhat --network linea-testnet run scripts/send-message.ts
