@@ -34,7 +34,6 @@ var (
 
 var (
 	toEmail     string
-	subject     string
 	authSecret  string
 	emailClient *ses.SES
 
@@ -53,12 +52,7 @@ type ResponseMessage struct {
 
 func init() {
 	toEmail = os.Getenv("TO_EMAIL")
-	subject = os.Getenv("SUBJECT")
 	authSecret = os.Getenv("SECRET")
-
-	if len(subject) < 0 {
-		subject = "NerifBridge: message received"
-	}
 
 	emailClient = ses.New(session.Must(session.NewSession()))
 }
@@ -109,7 +103,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 				},
 			},
 			Subject: &ses.Content{
-				Data: aws.String(subject),
+				Data: aws.String("Nerif Bridge: message received"),
 			},
 		},
 		Destination: &ses.Destination{

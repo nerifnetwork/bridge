@@ -52,7 +52,7 @@ async function main() {
 
     // Send message to the test receiver
     console.log("Sending message...");
-    const tx = await bridge.send(recipientChainId, recipientChainContracts.testReceiver, "0x07", 200000);
+    const tx = await bridge.send(recipientChainId, recipientChainContracts.testReceiver, "0x07", 100000);
     const receipt = await tx.wait();
     console.log(`Message has been successfully sent: ${receipt.transactionHash}\n`);
 
