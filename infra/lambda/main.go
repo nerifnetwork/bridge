@@ -14,16 +14,22 @@ import (
 	"github.com/aws/aws-sdk-go/service/ses"
 )
 
+const (
+	Success = "success"
+	Error   = "error"
+
+	messageTpl = `New message received
+
+Message: %s
+Sender address: %s
+Sender chain: %s`
+)
+
 var (
 	MessageNotProvided = errors.New("no message provided")
 	SenderNotProvided  = errors.New("no sender provided")
 	ChainNotProvided   = errors.New("no chain provided")
 	Unauthorized       = errors.New("unauthorized")
-)
-
-const (
-	Success = "success"
-	Error   = "error"
 )
 
 var (
@@ -97,7 +103,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		Message: &ses.Message{
 			Body: &ses.Body{
 				Text: &ses.Content{
-					Data: aws.String(fmt.Sprintf("Received message from %s (%s): %s", sender, chainToName[chain], message)),
+					Data: aws.String(fmt.Sprintf(messageTpl, message, sender, chainToName[chain])),
 				},
 			},
 			Subject: &ses.Content{
