@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"os"
 
@@ -15,6 +16,8 @@ import (
 
 var (
 	MessageNotProvided = errors.New("no message provided")
+	SenderNotProvided  = errors.New("no sender provided")
+	ChainNotProvided   = errors.New("no chain provided")
 	Unauthorized       = errors.New("unauthorized")
 )
 
@@ -28,6 +31,11 @@ var (
 	subject     string
 	authSecret  string
 	emailClient *ses.SES
+
+	chainToName = map[string]string{
+		"5":     "Ethereum Goerli",
+		"80001": "Polygon Mumbai",
+	}
 )
 
 type ResponseMessage struct {
@@ -75,11 +83,21 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return Failed(MessageNotProvided, http.StatusBadRequest)
 	}
 
+	sender := request.Headers["x-nerifbridge-sender"]
+	if sender == "" {
+		return Failed(SenderNotProvided, http.StatusBadRequest)
+	}
+
+	chain := request.Headers["x-nerifbridge-chain"]
+	if chain == "" {
+		return Failed(ChainNotProvided, http.StatusBadRequest)
+	}
+
 	emailParams := &ses.SendEmailInput{
 		Message: &ses.Message{
 			Body: &ses.Body{
 				Text: &ses.Content{
-					Data: aws.String(message),
+					Data: aws.String(fmt.Sprintf("Received message from %s (%s): %s", sender, chainToName[chain], message)),
 				},
 			},
 			Subject: &ses.Content{
@@ -105,7 +123,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	return events.APIGatewayProxyResponse{
 		Body:       string(successResponse),
-		StatusCode: 200,
+		StatusCode: http.StatusOK,
 	}, nil
 
 }
