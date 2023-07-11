@@ -23,7 +23,7 @@ export async function deployBridgeContracts(options?: BridgeDeploymentOptions): 
 
   deployer.log('Initializing contracts\n');
 
-  await deployer.sendTransaction(res.bridge.initialize(params.senders, params.gateway), 'Initializing NerifBridge');
+  await deployer.sendTransaction(res.bridge.initialize(params.senders, params.gateway, 0), 'Initializing NerifBridge');
 
   deployer.log('Successfully initialized contracts\n');
 

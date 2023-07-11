@@ -46,7 +46,7 @@ const config: HardhatUserConfig = {
     },
     'linea-testnet': {
       chainId: 59140,
-      url: 'https://rpc.goerli.linea.build',
+      url: `https://linea-goerli.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts,
     },
   },
@@ -99,8 +99,8 @@ const config: HardhatUserConfig = {
         network: "linea-testnet",
         chainId: 59140,
         urls: {
-          apiURL: "https://explorer.goerli.linea.build/api",
-          browserURL: "https://explorer.goerli.linea.build"
+          apiURL: "https://api-goerli.lineascan.build/api",
+          browserURL: "https://goerli.lineascan.build"
         }
       },
     ]
